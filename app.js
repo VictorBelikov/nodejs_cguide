@@ -14,7 +14,7 @@ app.use(shopRoutes);
 
 // Если ни один из маршрутов не будет обработан
 app.use((req, res) => {
-  res.status(404).sendfile(path.join(__dirname, './views/404.html'));
+  res.status(404).sendFile(path.join(__dirname, './views/404.html'));
 });
 
 // ============================================================================
