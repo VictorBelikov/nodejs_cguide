@@ -8,17 +8,21 @@ const shopRoutes = require('./routes/shop');
 
 const app = express();
 
-app.engine('hbs', expressHbs());
-// set value globally on out express application
+app.engine(
+  'hbs',
+  expressHbs({ layoutsDir: 'views/layouts/', defaultLayout: 'main-layout' }),
+);
+
+// set value globally on our express application
 app.set('view engine', 'hbs'); // our template engine
 app.set('views', 'views'); // where our views save
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Позволяет обслуживать статические(кот.не обслуж. маршрутами) файлы
-// в указ.дериктории
+// Позволяет обслуживать static(кот.не обслуж. маршрутами) файлы в указ.дериктории
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Routes
 app.use('/admin', adminData.routes);
 app.use(shopRoutes);
 
@@ -28,7 +32,7 @@ app.use((req, res) => {
   res.status(404).render('404', { pageTitle: 'Page Not Found' });
 });
 
-// ============================================================================
+// ========================= Create server ====================================
 
 // const server = http.createServer(app);
 // server.listen(3000, () => console.log('Server is running on port 3000...'));
