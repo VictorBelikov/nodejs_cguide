@@ -1,11 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const expressHbs = require('express-handlebars');
 
-const adminRoutes = require('./routes/admin');
+const adminData = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
 const app = express();
+
+app.engine('hbs', expressHbs());
+// set value globally on out express application
+app.set('view engine', 'hbs'); // our template engine
+app.set('views', 'views'); // where our views save
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -13,12 +19,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // в указ.дериктории
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/admin', adminRoutes);
+app.use('/admin', adminData.routes);
 app.use(shopRoutes);
 
 // Если ни один из маршрутов не будет обработан
 app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, './views/404.html'));
+  // res.status(404).sendFile(path.join(__dirname, './views/404.html'));
+  res.status(404).render('404', { pageTitle: 'Page Not Found' });
 });
 
 // ============================================================================
