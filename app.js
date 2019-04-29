@@ -9,6 +9,10 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// Позволяет обслуживать статические(кот.не обслуж. маршрутами) файлы
+// в указ.дериктории
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
