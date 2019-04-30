@@ -14,6 +14,9 @@ router.get('/', (req, res) => {
     pageTitle: 'Shop',
     path: '/',
     hasProducts: adminData.products.length > 0,
+    activeShop: true,
+    productCSS: true,
+    layout: false, // if you don't want to include this file into the layout
   });
 });
 
