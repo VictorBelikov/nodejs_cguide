@@ -1,24 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const expressHbs = require('express-handlebars');
+// const expressHbs = require('express-handlebars');
 
 const adminData = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
 const app = express();
 
-app.engine(
-  'hbs',
-  expressHbs({
-    layoutsDir: 'views/layouts/',
-    defaultLayout: 'main-layout',
-    extname: 'hbs',
-  }),
-);
-
 // set value globally on our express application
-app.set('view engine', 'hbs'); // our template engine
+app.set('view engine', 'ejs'); // our template engine
 app.set('views', 'views'); // where our views save
 
 app.use(bodyParser.urlencoded({ extended: false }));

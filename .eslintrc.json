@@ -30,6 +30,7 @@
     "no-empty": "off",
     "no-trailing-spaces": "off",
     "indent": "off",
-    "eol-last": "off"
+    "eol-last": "off",
+    "max-len": "off"
   }
 }
