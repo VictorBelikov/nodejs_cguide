@@ -10,7 +10,7 @@ const app = express();
 
 // set value globally on our express application
 app.set('view engine', 'ejs'); // our template engine
-app.set('views', 'views'); // where our views save
+app.set('views', 'views'); // where our views are stored
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -24,7 +24,7 @@ app.use(shopRoutes);
 // Если ни один из маршрутов не будет обработан
 app.use((req, res) => {
   // res.status(404).sendFile(path.join(__dirname, './views/404.html'));
-  res.status(404).render('404', { pageTitle: 'Page Not Found' });
+  res.status(404).render('404', { pageTitle: 'Page Not Found', path: '' });
 });
 
 // ========================= Create server ====================================
