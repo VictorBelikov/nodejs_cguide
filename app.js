@@ -3,8 +3,9 @@ const bodyParser = require('body-parser');
 const path = require('path');
 // const expressHbs = require('express-handlebars');
 
-const adminData = require('./routes/admin');
+const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const errController = require('./controllers/error');
 
 const app = express();
 
@@ -18,14 +19,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.use('/admin', adminData.routes);
+app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
 // Если ни один из маршрутов не будет обработан
-app.use((req, res) => {
-  // res.status(404).sendFile(path.join(__dirname, './views/404.html'));
-  res.status(404).render('404', { pageTitle: 'Page Not Found', path: '' });
-});
+app.use(errController.get404Page);
 
 // ========================= Create server ====================================
 
