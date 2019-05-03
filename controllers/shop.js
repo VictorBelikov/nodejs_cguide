@@ -20,8 +20,25 @@ exports.getProducts = (req, res) => {
   });
 };
 
+exports.getProduct = (req, res) => {
+  const { productId } = req.params;
+  Product.findById(productId, (product) => {
+    res.render('shop/product-detail', {
+      product,
+      pageTitle: product.title,
+      path: '/products',
+    });
+  });
+};
+
 exports.getCart = (req, res) => {
   res.render('shop/cart', { path: '/cart', pageTitle: 'Cart' });
+};
+
+exports.postCart = (req, res) => {
+  const { productId } = req.body;
+  console.log(productId);
+  res.redirect('/cart');
 };
 
 exports.getOrders = (req, res) => {
