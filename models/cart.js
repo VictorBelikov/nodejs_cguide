@@ -13,18 +13,20 @@ class Cart {
         return;
       }
       const cart = data.toString() ? JSON.parse(data) : { products: [], totalPrice: 0 };
-      const existingProduct = cart.products.find((p) => p.id === id);
+      const existingProductIndex = cart.products.findIndex((p) => p.id === id);
+      const existingProduct = cart.products[existingProductIndex];
 
-      let updatedProduct;
+      let newProduct = { id, quantity: 1 };
       if (existingProduct) {
-        updatedProduct = { ...existingProduct };
-        updatedProduct.quantity++;
+        newProduct = { ...existingProduct };
+        newProduct.quantity++;
+        cart.products = [...cart.products]; // immutable way; непонятно зачем ведь все равно копируются ссылки; глянуть его видео по immutable
+        cart.products[existingProductIndex] = newProduct;
       } else {
-        updatedProduct = { id, quantity: 1 };
-        cart.products = [...cart.products, updatedProduct];
+        cart.products = [...cart.products, newProduct];
       }
 
-      cart.totalPrice += productPrice;
+      cart.totalPrice += +productPrice;
       fs.writeFile(filePath, JSON.stringify(cart), (e) => console.log(e));
     });
   }

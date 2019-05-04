@@ -1,9 +1,1 @@
-[
-  {
-    "title": "book1",
-    "imageUrl": "https://cdn.pixabay.com/photo/2016/03/31/20/51/book-1296045_960_720.png",
-    "description": "clash of the kings",
-    "price": "100.99",
-    "id": "0.08038937789313483"
-  }
-]
+[{"title":"book1","imageUrl":"https://cdn.pixabay.com/photo/2016/03/31/20/51/book-1296045_960_720.png","description":"clash of the kings","price":"100.99","id":"0.08038937789313483"},{"title":"another product","imageUrl":"https://cdn.pixabay.com/photo/2016/03/31/20/51/book-1296045_960_720.png","description":"description for ...\r\n","price":"55.55","id":"0.5473224393795266"}]
