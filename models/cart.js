@@ -27,7 +27,7 @@ class Cart {
       }
 
       cart.totalPrice += +productPrice;
-      fs.writeFile(filePath, JSON.stringify(cart), (e) => console.log(e));
+      fs.writeFile(filePath, JSON.stringify(cart));
     });
   }
 }
