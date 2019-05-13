@@ -6,8 +6,13 @@ const path = require('path');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const errController = require('./controllers/error');
+const db = require('./util/database');
 
 const app = express();
+
+db.execute('SELECT * FROM products')
+  .then((result) => console.log(result[0]))
+  .catch((err) => console.log(err));
 
 // set value globally on our express application
 app.set('view engine', 'ejs'); // our template engine
