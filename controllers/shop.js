@@ -27,16 +27,30 @@ exports.getProducts = (req, res) => {
 
 exports.getProduct = (req, res) => {
   const { productId } = req.params;
-  Product.findById(productId)
-    .then(([product]) => {
-      console.log(product);
+
+  // this way
+  Product.findAll({ where: { id: productId } })
+    .then((products) => {
+      console.log(products[0]);
       res.render('shop/product-detail', {
-        product: product[0],
-        pageTitle: product[0].title,
+        product: products[0],
+        pageTitle: products[0].title,
         path: '/products',
       });
     })
     .catch((err) => console.log(err));
+
+  // or this way
+  // Product.findById(productId)
+  //   .then((product) => {
+  //     console.log(product);
+  //     res.render('shop/product-detail', {
+  //       product,
+  //       pageTitle: product.title,
+  //       path: '/products',
+  //     });
+  //   })
+  //   .catch((err) => console.log(err));
 };
 
 exports.getCart = (req, res) => {
