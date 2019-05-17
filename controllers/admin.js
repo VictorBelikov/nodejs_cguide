@@ -9,11 +9,12 @@ exports.getAddProduct = (req, res) => {
 };
 
 exports.postAddProduct = (req, res) => {
-  Product.create({
+  req.user.createProduct({
     title: req.body.title,
     price: req.body.price,
     imageUrl: req.body.imageUrl,
     description: req.body.description,
+    userId: req.user.id,
   })
     .then(() => {
       console.log('Created Product');

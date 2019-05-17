@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "lint": "eslint ./src/**/*.js",
-    "start": "nodemon ./src/app.js"
+    "lint": "eslint ./**/*.js",
+    "start": "nodemon app.js"
   },
   "author": "V1ctoR",
   "license": "ISC",
