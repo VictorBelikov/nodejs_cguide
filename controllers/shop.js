@@ -78,17 +78,26 @@ exports.getCart = (req, res) => {
 
 exports.postCart = (req, res) => {
   const { productId } = req.body;
+  let fetchedCart = null;
+  let newQuantity = 1;
 
   req.user.getCart()
-    .then((cart) => cart.getProducts({ where: { id: productId } })
-      .then((products) => {
-        if (products.length) products[0].quantity++;
-        else products[0].quantity = 1;
-
-        return Product.findById(productId)
-          .then((p) => cart.addProduct(p, { through: { quantity: 1 } }))
-          .catch((err) => console.log(err));
-      }))
+    .then((cart) => {
+      fetchedCart = cart;
+      return cart.getProducts({ where: { id: productId } });
+    })
+    .then((products) => {
+      if (products.length) {
+        const product = products[0];
+        let oldQuantity = product.cartItem.quantity;
+        newQuantity = ++oldQuantity;
+        return fetchedCart.addProduct(product, { through: { quantity: newQuantity } });
+      }
+      return Product.findById(productId) // Ищем не в корзине, а в общей базе продуктов
+        .then((p) => fetchedCart.addProduct(p, { through: { quantity: newQuantity } }))
+        .catch((err) => console.log(err));
+    })
+    .then(() => res.redirect('/cart'))
     .catch((err) => console.log(err));
 };
 
