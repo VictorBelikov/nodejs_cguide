@@ -58,10 +58,13 @@ sequelize
   // Здесь мы проверяем есть ли User в БД, иначе сервер не будет запущен. Используем же юзера уже посредством middleware.
   .then(() => User.findById(1))
   .then((user) => {
-    if (!user) return User.create({ name: 'Victor', email: 'example@gmail.com' });
+    if (!user) {
+      const newUser = User.create({ name: 'Victor', email: 'example@gmail.com' });
+      newUser.createCart();
+      return newUser;
+    }
     return user;
   })
-  .then((user) => user.createCart())
   .then(() => app.listen(3000, () => console.log('Server is running on port 3000...')))
   .catch((err) => console.log(err));
 
@@ -77,3 +80,5 @@ sequelize
 //   var server = http.createServer(this);
 //   return server.listen.apply(server, arguments);
 // };
+
+// mongodb+srv://V1ctoR:nodeCompleteGuide@node-complete-mongo-z5sxq.mongodb.net/test?retryWrites=true
