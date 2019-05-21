@@ -1,0 +1,12 @@
+{
+  "singleQuote": true,
+  "trailingComma": "all",
+  "printWidth": 120,
+  "jsxBracketSameLine": true,
+  "endOfLine": "lf",
+  "arrowParens": "always",
+  "disableLanguages": [
+    "vue",
+    "html"
+  ]
+}

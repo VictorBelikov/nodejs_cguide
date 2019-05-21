@@ -4,7 +4,7 @@ const path = require('path');
 
 // routes
 const adminRoutes = require('./routes/admin');
-// const shopRoutes = require('./routes/shop');
+const shopRoutes = require('./routes/shop');
 const errController = require('./controllers/error');
 const { mongoConnect } = require('./util/database');
 
@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/admin', adminRoutes);
-// app.use(shopRoutes);
+app.use(shopRoutes);
 
 // Если ни один из маршрутов не будет обработан
 app.use(errController.get404Page);

@@ -32,14 +32,18 @@ const { MongoClient } = mongodb;
 let _db;
 
 const mongoConnect = (cb) => {
-  MongoClient
-    .connect('mongodb+srv://V1ctoR:nodeCompleteGuide@node-complete-mongo-z5sxq.mongodb.net/shop?retryWrites=true')
+  MongoClient.connect(
+    'mongodb+srv://V1ctoR:nodeCompleteGuide@node-complete-mongo-z5sxq.mongodb.net/shop?retryWrites=true',
+    { useNewUrlParser: true },
+  )
     .then((client) => {
       console.log('Connected to MongoDB...');
       _db = client.db();
       cb();
     })
-    .catch((err) => { throw err; });
+    .catch((err) => {
+      throw err;
+    });
 };
 
 const getDb = () => {
