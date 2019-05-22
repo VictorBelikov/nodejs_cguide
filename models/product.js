@@ -1,4 +1,5 @@
 const mongodb = require('mongodb');
+require('colors');
 
 const { getDb } = require('../util/database');
 
@@ -8,11 +9,10 @@ class Product {
     this.price = price;
     this.description = description;
     this.imageUrl = imageUrl;
-    this._id = new mongodb.ObjectId(id); // Т.к. заменить оно может если id передан как объект, а не как строка. MongoDb model rules.
+    this._id = id ? new mongodb.ObjectId(id) : null; // Т.к. заменить оно может если id передан как объект, а не как строка. MongoDb model rules.
   }
 
   save() {
-    console.log(typeof this._id);
     const db = getDb();
     let dbOp;
 
@@ -21,7 +21,9 @@ class Product {
     } else {
       dbOp = db.collection('products').insertOne(this);
     }
-    return dbOp.catch((err) => console.log(err));
+    return dbOp
+      .then(() => console.log('Product was sucessfully created!'.blue))
+      .catch((err) => console.log(err));
   }
 
   static fetchAll() {
@@ -43,33 +45,15 @@ class Product {
       .then((product) => product)
       .catch((err) => console.log(err));
   }
-}
 
-// ===================== Model for MySql + Sequelize ==========================
-// const Sequelize = require('sequelize');
-//
-// const sequelize = require('../util/database');
-//
-// const Product = sequelize.define('product', {
-//   id: {
-//     type: Sequelize.INTEGER,
-//     autoIncrement: true,
-//     allowNull: false,
-//     primaryKey: true,
-//   },
-//   title: Sequelize.STRING,
-//   price: {
-//     type: Sequelize.DOUBLE,
-//     allowNull: false,
-//   },
-//   imageUrl: {
-//     type: Sequelize.STRING,
-//     allowNull: false,
-//   },
-//   description: {
-//     type: Sequelize.STRING,
-//     allowNull: false,
-//   },
-// });
+  static deletedById(productId) {
+    const db = getDb();
+    return db
+      .collection('products')
+      .deleteOne({ _id: new mongodb.ObjectId(productId) })
+      .then(() => console.log('Product was successfully deleted!'.red))
+      .catch((err) => console.log(err));
+  }
+}
 
 module.exports = Product;
