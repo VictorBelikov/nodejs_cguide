@@ -4,12 +4,13 @@ require('colors');
 const { getDb } = require('../util/database');
 
 class Product {
-  constructor(title, price, description, imageUrl, id) {
+  constructor(title, price, description, imageUrl, id, userId) {
     this.title = title;
     this.price = price;
     this.description = description;
     this.imageUrl = imageUrl;
     this._id = id ? new mongodb.ObjectId(id) : null; // Т.к. заменить оно может если id передан как объект, а не как строка. MongoDb model rules.
+    this.userId = userId;
   }
 
   save() {
@@ -21,9 +22,7 @@ class Product {
     } else {
       dbOp = db.collection('products').insertOne(this);
     }
-    return dbOp
-      .then(() => console.log('Product was sucessfully created!'.blue))
-      .catch((err) => console.log(err));
+    return dbOp.then(() => console.log('Product was sucessfully created!'.blue)).catch((err) => console.log(err));
   }
 
   static fetchAll() {
