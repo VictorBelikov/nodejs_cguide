@@ -22,8 +22,15 @@ class User {
   addToCart(product) {
     const db = getDb();
 
-    // const cartProductIndex = this.cart.items.findIndex((p) => p._id === product._id);
-    const updatedCart = { items: [{ productId: new mongodb.ObjectId(product._id), quantity: 1 }] };
+    const updatedCartItems = [...this.cart.items];
+    const cartProductIndex = updatedCartItems.findIndex((p) => p.productId.toString() === product._id.toString());
+
+    if (cartProductIndex >= 0) {
+      updatedCartItems[cartProductIndex].quantity++;
+    } else {
+      updatedCartItems.push({ productId: new mongodb.ObjectId(product._id), quantity: 1 });
+    }
+    const updatedCart = { items: updatedCartItems };
     return db.collection('users').updateOne({ _id: mongodb.ObjectId(this._id) }, { $set: { cart: updatedCart } });
   }
 
