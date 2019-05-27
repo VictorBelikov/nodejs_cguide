@@ -1,13 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const mongoose = require('mongoose');
 
 // routes
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const errController = require('./controllers/error');
 
-const { mongoConnect } = require('./util/database');
 const User = require('./models/user');
 
 const app = express();
@@ -37,9 +37,13 @@ app.use(shopRoutes);
 // Если ни один из маршрутов не будет обработан
 app.use(errController.get404Page);
 
-mongoConnect(() =>
-  app.listen(3000, () => console.log('Server is running on port 3000...')),
-);
+mongoose
+  .connect(
+    'mongodb+srv://V1ctoR:nodeCompleteGuide@node-complete-mongo-z5sxq.mongodb.net/shop?retryWrites=true',
+    { useNewUrlParser: true },
+  )
+  .then(() => app.listen(3000, () => console.log('Server is running on port 3000...')))
+  .catch((err) => console.log(err));
 
 // ========================= Create server ====================================
 

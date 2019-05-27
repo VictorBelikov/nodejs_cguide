@@ -24,7 +24,7 @@
 //
 // module.exports = sequelize;
 
-// ============================= MongoDB ======================================
+// ============================= MongoDB without mongoose =====================
 
 const mongodb = require('mongodb');
 
