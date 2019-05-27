@@ -37,7 +37,9 @@ app.use(shopRoutes);
 // Если ни один из маршрутов не будет обработан
 app.use(errController.get404Page);
 
-mongoConnect(() => app.listen(3000, () => console.log('Server is running on port 3000...')));
+mongoConnect(() =>
+  app.listen(3000, () => console.log('Server is running on port 3000...')),
+);
 
 // ========================= Create server ====================================
 
