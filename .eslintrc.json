@@ -35,6 +35,7 @@
     "no-throw-literal": "off",
     "function-paren-newline": "off",
     "implicit-arrow-linebreak": "off",
-    "arrow-body-style": "off"
+    "arrow-body-style": "off",
+    "space-before-function-paren": "off"
   }
 }

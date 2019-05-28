@@ -9,14 +9,14 @@ exports.getAddProduct = (req, res) => {
 };
 
 exports.postAddProduct = (req, res) => {
-  const product = new Product(
-    req.body.title,
-    req.body.price,
-    req.body.description,
-    req.body.imageUrl,
-    null,
-    req.user._id,
-  );
+  const product = new Product({
+    title: req.body.title,
+    price: req.body.price,
+    description: req.body.description,
+    imageUrl: req.body.imageUrl,
+    userId: req.user, // mongoose picked id automatically
+  });
+
   product
     .save()
     .then(() => res.redirect('/products'))
@@ -41,21 +41,22 @@ exports.getEditProduct = (req, res) => {
 };
 
 exports.postEditProduct = (req, res) => {
-  const updatedProduct = new Product(
-    req.body.title,
-    req.body.price,
-    req.body.description,
-    req.body.imageUrl,
-    req.body.productId,
-  );
-  updatedProduct
-    .save()
+  Product.findById(req.body.productId)
+    .then((product) => {
+      product.title = req.body.title;
+      product.price = req.body.price;
+      product.description = req.body.description;
+      product.imageUrl = req.body.imageUrl;
+      product.save();
+    })
     .then(() => res.redirect('/admin/products'))
     .catch((err) => console.log(err));
 };
 
 exports.getProducts = (req, res) => {
-  Product.fetchAll()
+  Product.find()
+  // .select('title price -_id')
+  // .populate('userId', 'name')
     .then((products) => {
       res.render('admin/products', {
         prods: products,
@@ -67,7 +68,7 @@ exports.getProducts = (req, res) => {
 };
 
 exports.postDeleteProduct = (req, res) => {
-  Product.deletedById(req.body.productId)
+  Product.findByIdAndDelete(req.body.productId)
     .then(() => res.redirect('/admin/products'))
     .catch((err) => console.log(err));
 };

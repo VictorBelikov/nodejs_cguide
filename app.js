@@ -22,9 +22,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-  User.findById('5ce55e731c9d4400004fe866')
+  User.findById('5ced1a8d1c580404741ebb26')
     .then((user) => {
-      req.user = new User(user.name, user.email, user.cart, user._id);
+      req.user = user;
       next();
     })
     .catch((err) => console.log(err));
@@ -33,16 +33,26 @@ app.use((req, res, next) => {
 // Routes
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
-
-// Если ни один из маршрутов не будет обработан
-app.use(errController.get404Page);
+app.use(errController.get404Page); // Если ни один из маршрутов не будет обработан
 
 mongoose
   .connect(
     'mongodb+srv://V1ctoR:nodeCompleteGuide@node-complete-mongo-z5sxq.mongodb.net/shop?retryWrites=true',
     { useNewUrlParser: true },
   )
-  .then(() => app.listen(3000, () => console.log('Server is running on port 3000...')))
+  .then(() => {
+    User.findOne().then((user) => {
+      if (!user) {
+        const newUser = new User({
+          name: 'Victor',
+          email: 'victor@example.com',
+          cart: { items: [] },
+        });
+        newUser.save();
+      }
+    });
+    app.listen(3000, () => console.log('Server is running on port 3000...'.bgRed));
+  })
   .catch((err) => console.log(err));
 
 // ========================= Create server ====================================

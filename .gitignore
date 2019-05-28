@@ -1,6 +1,7 @@
 .DS_Store
 .idea/
 .vscode/
+.vs/
 build/
 node_modules/
 npm-debug.log
