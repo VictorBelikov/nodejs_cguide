@@ -36,10 +36,9 @@ app.use(shopRoutes);
 app.use(errController.get404Page); // Если ни один из маршрутов не будет обработан
 
 mongoose
-  .connect(
-    'mongodb+srv://V1ctoR:nodeCompleteGuide@node-complete-mongo-z5sxq.mongodb.net/shop?retryWrites=true',
-    { useNewUrlParser: true },
-  )
+  .connect('mongodb+srv://V1ctoR:nodeCompleteGuide@node-complete-mongo-z5sxq.mongodb.net/shop?retryWrites=true', {
+    useNewUrlParser: true,
+  })
   .then(() => {
     User.findOne().then((user) => {
       if (!user) {

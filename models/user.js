@@ -14,18 +14,23 @@ const userSchema = new Schema({
   cart: {
     items: [
       {
-        productId: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
-        quantity: { type: Number, required: true },
+        productId: {
+          type: Schema.Types.ObjectId,
+          ref: 'Product',
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+        },
       },
     ],
   },
 });
 
-userSchema.methods.addToCart = function(product) {
+userSchema.methods.addToCart = function (product) {
   const updatedCartItems = [...this.cart.items];
-  const cartProductIndex = updatedCartItems.findIndex(
-    (p) => p.productId.toString() === product._id.toString(),
-  );
+  const cartProductIndex = updatedCartItems.findIndex((p) => p.productId.toString() === product._id.toString());
 
   if (cartProductIndex >= 0) {
     updatedCartItems[cartProductIndex].quantity++;
@@ -39,6 +44,20 @@ userSchema.methods.addToCart = function(product) {
   this.cart = updatedCart;
 
   return this.save();
+};
+
+userSchema.methods.deleteItemFromCart = function (productId) {
+  const updatedCartItems = this.cart.items.filter((p) => p.productId.toString() !== productId.toString());
+  this.cart.items = updatedCartItems;
+  return this.save();
+};
+
+userSchema.methods.getOrders = function () {
+
+};
+
+userSchema.methods.addOrder = function () {
+
 };
 
 module.exports = mongoose.model('User', userSchema);
