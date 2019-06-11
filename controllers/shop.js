@@ -87,7 +87,8 @@ exports.postOrder = (req, res) => {
     .populate('cart.items.productId')
     .execPopulate()
     .then((user) => {
-      const products = user.cart.items.map((i) => ({ quantity: i.quantity, product: i.productId }));
+      // ._doc - отсекает ненужные метаданные от объекта product
+      const products = user.cart.items.map((i) => ({ quantity: i.quantity, product: { ...i.productId._doc } }));
       const order = new Order({
         user: {
           name: req.user.name,
@@ -97,6 +98,7 @@ exports.postOrder = (req, res) => {
       });
       order.save();
     })
+    .then(req.user.clearCart())
     .then(() => res.redirect('/cart'))
     .catch((err) => console.log(err));
 };
