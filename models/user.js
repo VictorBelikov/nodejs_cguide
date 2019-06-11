@@ -52,10 +52,13 @@ userSchema.methods.deleteItemFromCart = function(productId) {
   return this.save();
 };
 
-userSchema.methods.clearCart = () => { // we can't use arrow func !!!
-  console.log(this);
+userSchema.methods.clearCart = function() {
   this.cart = { items: [] };
   return this.save();
+};
+
+userSchema.methods.getOrders = function() {
+
 };
 
 module.exports = mongoose.model('User', userSchema);
