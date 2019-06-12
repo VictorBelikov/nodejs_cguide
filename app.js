@@ -4,6 +4,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 
 // routes
+const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const errController = require('./controllers/error');
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
+app.use(authRoutes);
 app.use(errController.get404Page); // Если ни один из маршрутов не будет обработан
 
 mongoose
@@ -55,7 +57,7 @@ mongoose
   .catch((err) => console.log(err));
 
 // ========================= Create server ====================================
-
+// 13/5
 // const server = http.createServer(app);
 // server.listen(3000, () => console.log('Server is running on port 3000...'));
 
